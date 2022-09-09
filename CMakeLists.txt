@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-project(_cppsim)
+project(projectq VERSION 1.0.0)
 
 add_subdirectory(ThirdParty/googletest EXCLUDE_FROM_ALL)
 

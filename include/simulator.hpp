@@ -44,6 +44,7 @@ typedef uint64_t idx_t;
 #endif  // _MSC_VER
 } // namespace omp
 
+namespace projectq {
 class Simulator{
 public:
     using calc_type = double;
@@ -338,6 +339,6 @@ private:
     RndEngine rnd_eng_;
     std::function<double()> rng_;
 };
-
+} // namespace projectq
 
 #endif

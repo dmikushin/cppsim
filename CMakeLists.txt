@@ -22,7 +22,7 @@ target_include_directories(kernelgen PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/ThirdPar
 res_embed(TARGET kernelgen NAME "nointrin" PATH "${CMAKE_CURRENT_SOURCE_DIR}/include/nointrin/kernelgen.py" KEYWORD)
 target_link_libraries(kernelgen PUBLIC pybind11::pybind11 Python3::Python OpenMP::OpenMP_CXX ${CMAKE_DL_LIBS})
 
-pybind11_add_module(${PROJECT_NAME} SHARED "src/${PROJECT_NAME}.cpp")
+pybind11_add_module(${PROJECT_NAME} SHARED "src/_cppsim.cpp")
 target_link_libraries(${PROJECT_NAME} PRIVATE kernelgen)
 
 macro(kernelgen)

@@ -29,6 +29,7 @@ using c_type = std::complex<double>;
 using ArrayType = std::vector<c_type, aligned_allocator<c_type,64>>;
 using MatrixType = std::vector<ArrayType>;
 using QuRegs = std::vector<std::vector<unsigned>>;
+using Simulator = projectq::Simulator;
 
 PYBIND11_MODULE(_cppsim, m)
 {

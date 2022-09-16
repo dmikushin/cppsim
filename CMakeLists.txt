@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-project(projectq VERSION 1.0.0)
+project(projectq_experimental VERSION 1.0.0)
 
 add_subdirectory(ThirdParty/googletest EXCLUDE_FROM_ALL)
 
@@ -24,6 +24,8 @@ target_link_libraries(kernelgen PUBLIC pybind11::pybind11 Python3::Python OpenMP
 
 pybind11_add_module(${PROJECT_NAME} SHARED "src/_cppsim.cpp")
 target_link_libraries(${PROJECT_NAME} PRIVATE kernelgen)
+
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 macro(kernelgen)
 	set(oneValueArgs NQUBITS VARIANT TARGET)
@@ -72,4 +74,28 @@ target_link_libraries(test_combinations PRIVATE gtest OpenMP::OpenMP_CXX)
 
 add_executable(benchmark "src/benchmark/benchmark.cpp")
 target_link_libraries(benchmark PRIVATE gtest kernelgen)
+
+install(TARGETS ${PROJECT_NAME}
+	EXPORT ${PROJECT_NAME})
+
+install(EXPORT ${PROJECT_NAME}
+	DESTINATION lib/cmake/${PROJECT_NAME}
+	NAMESPACE ${PROJECT_NAME}::)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+	"${PROJECT_NAME}Config.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+	INSTALL_DESTINATION "lib/cmake/${PROJECT_NAME}"
+)
+
+write_basic_package_version_file(
+	"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+	VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}.${${PROJECT_NAME}_VERSION_PATCH}"
+	COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES
+	"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+	"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+	DESTINATION "lib/cmake/${PROJECT_NAME}")
 
